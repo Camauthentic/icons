@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Icon Interaction</title>
+    <style>
+        .icon {
+            height: 100px; 
+            margin: 10px; 
+            cursor: pointer; 
+        }
+        .enlarged-icon {
+            position: absolute; 
+            height: 150px; 
+            display: none; 
+        }
+    </style>
+</head>
+<body>
+
+    <span id="icons-container">
+        <img src="https://upload.wikimedia.org/wikipedia/commons/5/51/Facebook_f_logo_%282019%29.svg" alt="Facebook" class="icon" data-name="facebook" data-url="https://www.facebook.com">
+        <img src="https://static.vecteezy.com/system/resources/previews/018/930/745/original/twitter-logo-twitter-icon-transparent-free-free-png.png" alt="Twitter" class="icon" data-name="twitter" data-url="https://www.twitter.com">
+        <img src="https://upload.wikimedia.org/wikipedia/commons/a/a5/Instagram_icon.png" alt="Instagram" class="icon" data-name="instagram" data-url="https://www.instagram.com">
+        <img src="https://upload.wikimedia.org/wikipedia/commons/0/01/LinkedIn_Logo.svg" alt="LinkedIn" class="icon" data-name="linkedin" data-url="https://www.linkedin.com">
+        <img src="https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png" alt="GitHub" class="icon" data-name="github" data-url="https://www.github.com">
+        <img src="https://upload.wikimedia.org/wikipedia/commons/4/42/YouTube_icon_%282013-2017%29.png" alt="YouTube" class="icon" data-name="youtube" data-url="https://www.youtube.com">
+    </span>
+
+    <p>In: <span id="in-text"></span></p>
+    <p>Out: <span id="out-text"></span></p>
+    <p>Mouse X: <span id="mouse-x"></span>, Y: <span id="mouse-y"></span></p>
+
+    <img id="enlarged-icon" class="enlarged-icon">
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+    <script>
+        $(document).ready(function() {
+            $(".icon").on("mouseenter", function() {
+                const iconName = $(this).data("name");
+                $("#in-text").text(iconName);
+                $(this).css("opacity", "0.5");
+            });
+
+            $(".icon").on("mouseleave", function() {
+                const iconName = $(this).data("name");
+                $("#out-text").text(iconName);
+                $(this).css("opacity", "1.0");
+            });
+
+            $(".icon").on("dblclick", function() {
+                const url = $(this).data("url");
+                window.open(url, '_blank');
+            });
+
+            $(".icon").on("click", function(event) {
+                const iconSrc = $(this).attr("src");
+                $("#enlarged-icon").attr("src", iconSrc)
+                                    .css({ top: event.pageY + 10, left: event.pageX + 10 })
+                                    .show();
+            });
+
+            $("#icons-container").on("mousemove", function(event) {
+                $("#mouse-x").text(event.pageX);
+                $("#mouse-y").text(event.pageY);
+            });
+
+            $("#enlarged-icon").on("mouseleave", function() {
+                $(this).hide();
+            });
+        });
+    </script>
+</body>
+</html>
